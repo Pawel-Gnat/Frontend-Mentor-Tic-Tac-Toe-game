@@ -1,0 +1,21 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Outfit", sans-serif;
+  font-size: 1.4rem;
+}
+
+body {
+  text-transform: uppercase;
+  background-color: #1a2a33;
+}/*# sourceMappingURL=style.css.map */
