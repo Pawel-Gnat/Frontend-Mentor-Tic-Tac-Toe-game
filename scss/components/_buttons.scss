@@ -1,0 +1,39 @@
+button {
+	font-family: 'Outfit', sans-serif;
+	font-size: 1.6rem;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+.btn {
+	text-transform: uppercase;
+	border-radius: 1rem;
+	border: none;
+	cursor: pointer;
+
+	&--cpu,
+	&--player {
+		width: 100%;
+		padding: 1.4rem 0 2.2rem;
+		transition: background-color 0.3s;
+	}
+
+	&--cpu {
+		margin-bottom: 1.6rem;
+		background-color: $yellow;
+		box-shadow: inset 0px -8px 0px #cc8b13;
+
+		&:hover {
+			background-color: $yellow-hover;
+		}
+	}
+
+	&--player {
+		background-color: $light-blue;
+		box-shadow: inset 0px -8px 0px #118c87;
+
+		&:hover {
+			background-color: $light-blue-hover;
+		}
+	}
+}

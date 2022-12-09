@@ -1,6 +1,3 @@
-import * as element from './config/dom-elements.js'
+import { renderSelectPlayerScreen } from './config/select-player-screen.js'
 
-const body = document.querySelector('body')
-
-body.appendChild(element.createLogoImage())
-body.appendChild(element.createPlayerIconPick())
+renderSelectPlayerScreen()

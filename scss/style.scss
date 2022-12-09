@@ -1,8 +1,73 @@
 @import './base/_reset';
 @import './base/_typography';
 @import './abstracts/_variables';
+@import './components/_buttons';
 
 body {
 	text-transform: uppercase;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	// width: 100%;
+	min-height: 100vh;
+	margin: 0 2.4rem;
 	background-color: $dark-navy;
+}
+
+.player-icon-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: auto;
+	padding: 2.4rem;
+	margin: 3.2rem 0;
+	border-radius: 1.5rem;
+	background-color: $semi-dark-navy;
+	color: $silver;
+	box-shadow: inset 0px -8px 0px #10212a;
+
+	p:first-of-type {
+		font-size: 1.6rem;
+		letter-spacing: 1px;
+		font-weight: 700;
+	}
+
+	p:last-of-type {
+		font-size: 1.4rem;
+		letter-spacing: 0.88px;
+		font-weight: 500;
+		opacity: 0.5;
+	}
+
+	.icon-container {
+		width: 100%;
+		padding: 0.9rem 0.8rem;
+		margin: 2.4rem 0 1.7rem;
+		border-radius: 1rem;
+		background-color: $dark-navy;
+
+		.x-btn,
+		.o-btn {
+			width: 50%;
+			padding: 1.1rem 0;
+			background-color: transparent;
+
+			img {
+				height: 3.2rem;
+				aspect-ratio: 1/1;
+				filter: brightness(0) invert(90%) brightness(85%) contrast(100%);
+			}
+		}
+
+		button.selected {
+			background-color: $silver;
+
+			img {
+				filter: brightness(0) saturate(100%) invert(11%) sepia(18%) saturate(1964%) hue-rotate(158deg) brightness(98%)
+					contrast(90%);
+			}
+		}
+	}
 }

@@ -18,7 +18,8 @@ export const createPlayerIconPick = () => {
 	iconContainer.className = 'icon-container'
 
 	const xBtn = document.createElement('button')
-	xBtn.className = 'x-btn'
+	xBtn.className = 'x-btn btn'
+	xBtn.type = 'button'
 	const xIconImg = document.createElement('img')
 	xIconImg.src = './assets/icon-x.svg'
 	xIconImg.alt = 'Cross icon'
@@ -26,7 +27,8 @@ export const createPlayerIconPick = () => {
 	xBtn.appendChild(xIconImg)
 
 	const oBtn = document.createElement('button')
-	oBtn.className = 'o-btn'
+	oBtn.className = 'o-btn btn'
+	oBtn.type = 'button'
 	const oIconImg = document.createElement('img')
 	oIconImg.src = './assets/icon-o.svg'
 	oIconImg.alt = 'Circle icon'
@@ -41,4 +43,22 @@ export const createPlayerIconPick = () => {
 	selectPlayerIconContainer.append(playerFirstInfo, iconContainer, playerSecondInfo)
 
 	return selectPlayerIconContainer
+}
+
+export const createNewGameVsCPUButton = () => {
+	const buttonCPU = document.createElement('button')
+	buttonCPU.type = 'button'
+	buttonCPU.className = 'btn--cpu btn'
+	buttonCPU.innerText = 'new game (vs cpu)'
+
+	return buttonCPU
+}
+
+export const createNewGameVsPlayerButtons = () => {
+	const buttonPlayer = document.createElement('button')
+	buttonPlayer.type = 'button'
+	buttonPlayer.className = 'btn--player btn'
+	buttonPlayer.innerText = 'new game (vs player)'
+
+	return buttonPlayer
 }
