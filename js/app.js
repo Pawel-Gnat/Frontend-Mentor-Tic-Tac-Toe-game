@@ -1,3 +1,3 @@
-import { renderSelectPlayerScreen } from './config/select-player-screen.js'
+import { renderApp } from './config/game-screen.js'
 
-renderSelectPlayerScreen()
+renderApp()

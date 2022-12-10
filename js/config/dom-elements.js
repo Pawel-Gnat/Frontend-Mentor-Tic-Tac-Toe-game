@@ -1,5 +1,10 @@
-export const createLogoImage = () => {
+import { firstPlayer, secondPlayer, CPU } from './game-data.js'
+
+// import { firstPlayer } from './game-data.js'
+
+const createLogoImage = () => {
 	const logoImage = document.createElement('img')
+	logoImage.className = 'logo'
 	logoImage.src = './assets/logo.svg'
 	logoImage.alt = ''
 	logoImage.setAttribute('aria-hidden', true)
@@ -7,7 +12,7 @@ export const createLogoImage = () => {
 	return logoImage
 }
 
-export const createPlayerIconPick = () => {
+const createPlayerIconPick = () => {
 	const selectPlayerIconContainer = document.createElement('div')
 	selectPlayerIconContainer.className = 'player-icon-container'
 
@@ -20,6 +25,7 @@ export const createPlayerIconPick = () => {
 	const xBtn = document.createElement('button')
 	xBtn.className = 'x-btn btn'
 	xBtn.type = 'button'
+	xBtn.dataset.icon = 'x'
 	const xIconImg = document.createElement('img')
 	xIconImg.src = './assets/icon-x.svg'
 	xIconImg.alt = 'Cross icon'
@@ -29,6 +35,7 @@ export const createPlayerIconPick = () => {
 	const oBtn = document.createElement('button')
 	oBtn.className = 'o-btn btn'
 	oBtn.type = 'button'
+	oBtn.dataset.icon = 'o'
 	const oIconImg = document.createElement('img')
 	oIconImg.src = './assets/icon-o.svg'
 	oIconImg.alt = 'Circle icon'
@@ -45,20 +52,160 @@ export const createPlayerIconPick = () => {
 	return selectPlayerIconContainer
 }
 
-export const createNewGameVsCPUButton = () => {
+const createNewGameVsCPUButton = () => {
 	const buttonCPU = document.createElement('button')
 	buttonCPU.type = 'button'
+	buttonCPU.dataset.vs = 'cpu'
 	buttonCPU.className = 'btn--cpu btn'
 	buttonCPU.innerText = 'new game (vs cpu)'
 
 	return buttonCPU
 }
 
-export const createNewGameVsPlayerButtons = () => {
+const createNewGameVsPlayerButtons = () => {
 	const buttonPlayer = document.createElement('button')
 	buttonPlayer.type = 'button'
+	buttonPlayer.dataset.vs = 'player'
 	buttonPlayer.className = 'btn--player btn'
 	buttonPlayer.innerText = 'new game (vs player)'
 
 	return buttonPlayer
+}
+
+export const createSelectPlayerScreen = () => {
+	const container = document.createElement('div')
+	container.className = 'select-player-screen'
+
+	container.append(
+		createLogoImage(),
+		createPlayerIconPick(),
+		createNewGameVsCPUButton(),
+		createNewGameVsPlayerButtons()
+	)
+
+	return container
+}
+
+const createPlayerIcon = player => {
+	const iconImage = document.createElement('img')
+	iconImage.src = player.icon
+	iconImage.alt = ''
+	iconImage.setAttribute('aria-hidden', true)
+
+	return iconImage
+}
+
+const createTurnInfo = player => {
+	const turnContainer = document.createElement('div')
+	turnContainer.className = 'turn-info'
+
+	const turnText = document.createElement('span')
+	turnText.innerText = 'turn'
+
+	turnContainer.append(createPlayerIcon(player), turnText)
+
+	return turnContainer
+}
+
+const createRestartGameButton = () => {
+	const restartButton = document.createElement('button')
+	restartButton.className = 'btn--restart btn'
+	restartButton.type = 'button'
+
+	const restartIcon = document.createElement('img')
+	restartIcon.src = './assets/icon-restart.svg'
+	restartIcon.alt = 'Restart game icon'
+
+	restartButton.appendChild(restartIcon)
+
+	return restartButton
+}
+
+const createGameHeaderInfoContainer = player => {
+	let activePlayer = player
+	const gameHeader = document.createElement('div')
+	gameHeader.className = 'game-header'
+
+	gameHeader.append(createLogoImage(), createTurnInfo(activePlayer), createRestartGameButton())
+
+	return gameHeader
+}
+
+const createTiles = value => {
+	const tile = document.createElement('button')
+	tile.type = 'button'
+	tile.dataset.value = `${value}`
+
+	return tile
+}
+
+const createBoard = () => {
+	const boardContainer = document.createElement('div')
+	boardContainer.className = 'board'
+
+	for (let i = 0; i < 9; i++) {
+		boardContainer.append(createTiles(i))
+	}
+
+	return boardContainer
+}
+
+const createScoreInfoElement = player => {
+	let sign = player.sign
+	let name = player.name
+	let score = player.score
+
+	const infoElement = document.createElement('div')
+	const infoElementPlayerName = document.createElement('p')
+	const infoElementPlayerScore = document.createElement('p')
+
+	infoElementPlayerName.innerText = `${sign} (${name})`
+	infoElementPlayerScore.innerText = `${score}`
+
+	infoElement.append(infoElementPlayerName, infoElementPlayerScore)
+
+	return infoElement
+}
+
+const createTiesInfoElement = ties => {
+	const infoElement = document.createElement('div')
+	const infoElementText = document.createElement('p')
+	const infoElementTiesScore = document.createElement('p')
+
+	infoElementText.innerText = 'ties'
+	infoElementTiesScore.innerText = `${ties}`
+
+	infoElement.append(infoElementText, infoElementTiesScore)
+
+	return infoElement
+}
+
+const createScoreInfoContainer = () => {
+	let activeOpponent = ''
+
+	if (secondPlayer.active) {
+		activeOpponent = secondPlayer
+	} else {
+		activeOpponent = CPU
+	}
+
+	const gameFooter = document.createElement('div')
+	gameFooter.className = 'game-footer'
+
+	gameFooter.append(
+		createScoreInfoElement(firstPlayer),
+		createTiesInfoElement(0),
+		createScoreInfoElement(activeOpponent)
+	)
+
+	return gameFooter
+}
+
+export const createGame = () => {
+	const gameScreen = document.createElement('div')
+	gameScreen.className = 'game-screen'
+
+	gameScreen.append(createGameHeaderInfoContainer(firstPlayer), createBoard(), createScoreInfoContainer())
+
+	return gameScreen
 }

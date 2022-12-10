@@ -20,6 +20,11 @@ button {
   font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: 1px;
+  outline: none;
+}
+
+button:focus {
+  opacity: 0.8;
 }
 
 .btn {
@@ -70,6 +75,12 @@ body {
   min-height: 100vh;
   margin: 0 2.4rem;
   background-color: #1a2a33;
+}
+
+.select-player-screen .logo {
+  position: relative;
+  left: 50%;
+  translate: -50% 0;
 }
 
 .player-icon-container {
@@ -123,6 +134,7 @@ body {
   aspect-ratio: 1/1;
   -webkit-filter: brightness(0) invert(90%) brightness(85%) contrast(100%);
           filter: brightness(0) invert(90%) brightness(85%) contrast(100%);
+  pointer-events: none;
 }
 .player-icon-container .icon-container button.selected {
   background-color: #a8bfc9;
@@ -130,4 +142,5 @@ body {
 .player-icon-container .icon-container button.selected img {
   -webkit-filter: brightness(0) saturate(100%) invert(11%) sepia(18%) saturate(1964%) hue-rotate(158deg) brightness(98%) contrast(90%);
           filter: brightness(0) saturate(100%) invert(11%) sepia(18%) saturate(1964%) hue-rotate(158deg) brightness(98%) contrast(90%);
+  pointer-events: none;
 }/*# sourceMappingURL=style.css.map */
