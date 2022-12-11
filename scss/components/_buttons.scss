@@ -14,6 +14,7 @@ button:focus {
 	text-transform: uppercase;
 	border-radius: 1rem;
 	border: none;
+	transition: background-color 0.3s;
 	cursor: pointer;
 
 	&--cpu,
@@ -40,5 +41,19 @@ button:focus {
 		&:hover {
 			background-color: $light-blue-hover;
 		}
+	}
+
+	&--restart {
+		background-color: $silver;
+		box-shadow: inset 0px -4px 0px #6b8997;
+
+		&:hover {
+			background-color: $silver-hover;
+		}
+	}
+
+	&--tile {
+		background-color: $semi-dark-navy;
+		box-shadow: inset 0px -8px 0px #10212a;
 	}
 }

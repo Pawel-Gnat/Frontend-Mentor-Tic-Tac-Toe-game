@@ -133,6 +133,7 @@ const createGameHeaderInfoContainer = player => {
 
 const createTiles = value => {
 	const tile = document.createElement('button')
+	tile.className = 'btn btn--tile'
 	tile.type = 'button'
 	tile.dataset.value = `${value}`
 

@@ -31,6 +31,8 @@ button:focus {
   text-transform: uppercase;
   border-radius: 1rem;
   border: none;
+  -webkit-transition: background-color 0.3s;
+  transition: background-color 0.3s;
   cursor: pointer;
 }
 .btn--cpu, .btn--player {
@@ -56,6 +58,24 @@ button:focus {
 .btn--player:hover {
   background-color: #65e9e4;
 }
+.btn--restart {
+  background-color: #a8bfc9;
+  -webkit-box-shadow: inset 0px -4px 0px #6b8997;
+          box-shadow: inset 0px -4px 0px #6b8997;
+}
+.btn--restart:hover {
+  background-color: #dbe8ed;
+}
+.btn--tile {
+  background-color: #1f3641;
+  -webkit-box-shadow: inset 0px -8px 0px #10212a;
+          box-shadow: inset 0px -8px 0px #10212a;
+}
+
+html {
+  height: 100%;
+  padding: 2.4rem;
+}
 
 body {
   text-transform: uppercase;
@@ -72,8 +92,7 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  min-height: 100vh;
-  margin: 0 2.4rem;
+  height: 100%;
   background-color: #1a2a33;
 }
 
@@ -95,7 +114,6 @@ body {
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
-  height: auto;
   padding: 2.4rem;
   margin: 3.2rem 0;
   border-radius: 1.5rem;
@@ -143,4 +161,115 @@ body {
   -webkit-filter: brightness(0) saturate(100%) invert(11%) sepia(18%) saturate(1964%) hue-rotate(158deg) brightness(98%) contrast(90%);
           filter: brightness(0) saturate(100%) invert(11%) sepia(18%) saturate(1964%) hue-rotate(158deg) brightness(98%) contrast(90%);
   pointer-events: none;
+}
+
+.game-screen {
+  width: 100%;
+  height: 100%;
+}
+.game-screen .game-header {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  -webkit-column-gap: 2rem;
+     -moz-column-gap: 2rem;
+          column-gap: 2rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  max-height: 4rem;
+}
+.game-screen .game-header .logo {
+  max-height: 3.1rem;
+}
+.game-screen .game-header .turn-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 0.9rem;
+  height: 100%;
+  max-width: 100%;
+  border-radius: 0.5rem;
+  background-color: #1f3641;
+  -webkit-box-shadow: inset 0px -4px 0px #10212a;
+          box-shadow: inset 0px -4px 0px #10212a;
+}
+.game-screen .game-header .turn-info img,
+.game-screen .game-header .turn-info span {
+  position: relative;
+  top: -2px;
+}
+.game-screen .game-header .turn-info img {
+  max-height: 1.6rem;
+  aspect-ratio: 1/1;
+  -webkit-filter: brightness(0) invert(90%) brightness(85%) contrast(100%);
+          filter: brightness(0) invert(90%) brightness(85%) contrast(100%);
+}
+.game-screen .game-header .turn-info span {
+  font-weight: 700;
+  letter-spacing: 0.88px;
+  color: #a8bfc9;
+}
+.game-screen .game-header button {
+  justify-self: end;
+  height: 4rem;
+  aspect-ratio: 1/1;
+}
+.game-screen .game-header button img {
+  height: 1.5rem;
+  pointer-events: none;
+}
+.game-screen .board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2rem;
+  width: 100%;
+  margin: 6.4rem 0 2rem;
+}
+.game-screen .board button {
+  aspect-ratio: 1/1;
+}
+.game-screen .game-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 2rem;
+}
+.game-screen .game-footer div {
+  max-height: 6.4rem;
+  width: 100%;
+  padding: 1.2rem;
+  border-radius: 1rem;
+  background-color: #31c3bd;
+  color: #1a2a33;
+  text-align: center;
+}
+.game-screen .game-footer div p {
+  font-weight: 500;
+  letter-spacing: 0.88px;
+}
+.game-screen .game-footer div p:nth-child(2) {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1.25px;
+}
+.game-screen .game-footer div:nth-child(2) {
+  background-color: #a8bfc9;
+}
+.game-screen .game-footer div:nth-child(3) {
+  background-color: #f2b137;
 }/*# sourceMappingURL=style.css.map */

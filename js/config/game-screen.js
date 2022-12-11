@@ -34,7 +34,7 @@ function startNewGame(e) {
 
 	document.body.querySelector('div').remove()
 
-	// document.body.appendChild(createGame())
+	document.body.appendChild(createGame())
 }
 
 document.body.addEventListener('click', e => {
