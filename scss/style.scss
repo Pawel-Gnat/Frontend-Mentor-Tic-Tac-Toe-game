@@ -1,6 +1,7 @@
 @import './base/_reset';
 @import './base/_typography';
 @import './abstracts/_variables';
+@import './abstracts/_animations';
 @import './components/_buttons';
 
 html {
@@ -151,7 +152,15 @@ body {
 		margin: 6.4rem 0 2rem;
 
 		button {
+			padding: 2.4rem;
 			aspect-ratio: 1/1;
+
+			img {
+				position: relative;
+				top: -2px;
+				width: 100%;
+				pointer-events: none;
+			}
 		}
 	}
 

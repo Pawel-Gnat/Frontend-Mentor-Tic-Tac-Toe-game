@@ -1,4 +1,5 @@
-import { firstPlayer, secondPlayer, CPU } from './game-data.js'
+// import { firstPlayer, secondPlayer, CPU } from './game-data.js'
+// import { activePlayer, waitingPlayer } from './game-screen.js'
 
 // import { firstPlayer } from './game-data.js'
 
@@ -98,6 +99,7 @@ const createPlayerIcon = player => {
 const createTurnInfo = player => {
 	const turnContainer = document.createElement('div')
 	turnContainer.className = 'turn-info'
+	turnContainer.setAttribute('aria-label', `${player.name} turn`)
 
 	const turnText = document.createElement('span')
 	turnText.innerText = 'turn'
@@ -122,30 +124,106 @@ const createRestartGameButton = () => {
 }
 
 const createGameHeaderInfoContainer = player => {
-	let activePlayer = player
 	const gameHeader = document.createElement('div')
 	gameHeader.className = 'game-header'
 
-	gameHeader.append(createLogoImage(), createTurnInfo(activePlayer), createRestartGameButton())
+	gameHeader.append(createLogoImage(), createTurnInfo(player), createRestartGameButton())
 
 	return gameHeader
 }
 
-const createTiles = value => {
+// function checkIfActivePlayerIsCPU(player) {
+// 	if (player.name === 'CPU') {
+// 		return true
+// 	}
+// }
+
+// export const selectTile = (player, element) => {
+// 	const elementImg = element.querySelector('img')
+
+// 	console.log(player)
+
+// 	element.addEventListener('mouseover', e => {
+// 		if (checkIfActivePlayerIsCPU(player)) return
+
+// 		if (element.dataset.filled === 'false') {
+// 			elementImg.src = `${player.iconOutline}`
+// 		}
+// 	})
+
+// 	element.addEventListener('mouseout', e => {
+// 		if (checkIfActivePlayerIsCPU(player)) return
+
+// 		if (element.dataset.filled === 'false') {
+// 			elementImg.src = ''
+// 		}
+// 	})
+
+// 	element.addEventListener('click', e => {
+// 		if (checkIfActivePlayerIsCPU(player)) return
+
+// 		if (element.dataset.filled === 'false') {
+// 			element.dataset.filled = 'true'
+// 			elementImg.src = `${player.icon}`
+// 			elementImg.alt = `${player.sign} icon`
+// 		}
+
+// 		if (element.dataset.filled === 'true') return
+// 	})
+// }
+
+const createTiles = (value, player) => {
 	const tile = document.createElement('button')
 	tile.className = 'btn btn--tile'
 	tile.type = 'button'
 	tile.dataset.value = `${value}`
+	tile.dataset.filled = false
+
+	const tileImg = document.createElement('img')
+	tileImg.src = ''
+	tileImg.alt = ''
+
+	tile.appendChild(tileImg)
+
+	// selectTile(player, tile)
+
+	// tile.addEventListener('mouseover', e => {
+	// 	if (checkIfActivePlayerIsCPU(player)) return
+
+	// 	if (tile.dataset.filled === 'false') {
+	// 		tileImg.src = `${player.iconOutline}`
+	// 	}
+	// })
+
+	// tile.addEventListener('mouseout', e => {
+	// 	if (checkIfActivePlayerIsCPU(player)) return
+
+	// 	if (tile.dataset.filled === 'false') {
+	// 		tileImg.src = ''
+	// 	}
+	// })
+
+	// tile.addEventListener('click', e => {
+	// 	if (checkIfActivePlayerIsCPU(player)) return
+
+	// 	if (tile.dataset.filled === 'false') {
+	// 		tile.dataset.filled = 'true'
+	// 		tileImg.src = `${player.icon}`
+	// 		tileImg.alt = `${player.sign} icon`
+	// 	}
+
+	// 	if (tile.dataset.filled === 'true') return
+	// })
 
 	return tile
 }
 
-const createBoard = () => {
+const createBoard = (player) => {
 	const boardContainer = document.createElement('div')
 	boardContainer.className = 'board'
 
 	for (let i = 0; i < 9; i++) {
-		boardContainer.append(createTiles(i))
+		boardContainer.append(createTiles(i, player))
 	}
 
 	return boardContainer
@@ -181,32 +259,32 @@ const createTiesInfoElement = ties => {
 	return infoElement
 }
 
-const createScoreInfoContainer = () => {
-	let activeOpponent = ''
-
-	if (secondPlayer.active) {
-		activeOpponent = secondPlayer
-	} else {
-		activeOpponent = CPU
-	}
-
+const createScoreInfoContainer = (active, waiting) => {
 	const gameFooter = document.createElement('div')
 	gameFooter.className = 'game-footer'
 
-	gameFooter.append(
-		createScoreInfoElement(firstPlayer),
-		createTiesInfoElement(0),
-		createScoreInfoElement(activeOpponent)
-	)
+	gameFooter.append(createScoreInfoElement(active), createTiesInfoElement(0), createScoreInfoElement(waiting))
 
 	return gameFooter
 }
 
-export const createGame = () => {
+export const createGame = (active, waiting) => {
 	const gameScreen = document.createElement('div')
-	gameScreen.className = 'game-screen'
+	gameScreen.className = 'game-screen fade-in'
 
-	gameScreen.append(createGameHeaderInfoContainer(firstPlayer), createBoard(), createScoreInfoContainer())
+	gameScreen.append(
+		createGameHeaderInfoContainer(active),
+		createBoard(active),
+		createScoreInfoContainer(active, waiting)
+	)
 
 	return gameScreen
+}
+
+export const changeTurnInfo = player => {
+	const turnContainer = document.querySelector('.turn-info')
+	turnContainer.setAttribute('aria-label', `${player.name} turn`)
+
+	const iconImage = turnContainer.querySelector('img')
+	iconImage.src = player.icon
 }
