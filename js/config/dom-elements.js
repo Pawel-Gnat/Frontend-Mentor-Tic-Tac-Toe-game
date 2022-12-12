@@ -1,8 +1,3 @@
-// import { firstPlayer, secondPlayer, CPU } from './game-data.js'
-// import { activePlayer, waitingPlayer } from './game-screen.js'
-
-// import { firstPlayer } from './game-data.js'
-
 const createLogoImage = () => {
 	const logoImage = document.createElement('img')
 	logoImage.className = 'logo'
@@ -132,47 +127,7 @@ const createGameHeaderInfoContainer = player => {
 	return gameHeader
 }
 
-// function checkIfActivePlayerIsCPU(player) {
-// 	if (player.name === 'CPU') {
-// 		return true
-// 	}
-// }
-
-// export const selectTile = (player, element) => {
-// 	const elementImg = element.querySelector('img')
-
-// 	console.log(player)
-
-// 	element.addEventListener('mouseover', e => {
-// 		if (checkIfActivePlayerIsCPU(player)) return
-
-// 		if (element.dataset.filled === 'false') {
-// 			elementImg.src = `${player.iconOutline}`
-// 		}
-// 	})
-
-// 	element.addEventListener('mouseout', e => {
-// 		if (checkIfActivePlayerIsCPU(player)) return
-
-// 		if (element.dataset.filled === 'false') {
-// 			elementImg.src = ''
-// 		}
-// 	})
-
-// 	element.addEventListener('click', e => {
-// 		if (checkIfActivePlayerIsCPU(player)) return
-
-// 		if (element.dataset.filled === 'false') {
-// 			element.dataset.filled = 'true'
-// 			elementImg.src = `${player.icon}`
-// 			elementImg.alt = `${player.sign} icon`
-// 		}
-
-// 		if (element.dataset.filled === 'true') return
-// 	})
-// }
-
-const createTiles = (value, player) => {
+const createTiles = (value) => {
 	const tile = document.createElement('button')
 	tile.className = 'btn btn--tile'
 	tile.type = 'button'
@@ -185,45 +140,15 @@ const createTiles = (value, player) => {
 
 	tile.appendChild(tileImg)
 
-	// selectTile(player, tile)
-
-	// tile.addEventListener('mouseover', e => {
-	// 	if (checkIfActivePlayerIsCPU(player)) return
-
-	// 	if (tile.dataset.filled === 'false') {
-	// 		tileImg.src = `${player.iconOutline}`
-	// 	}
-	// })
-
-	// tile.addEventListener('mouseout', e => {
-	// 	if (checkIfActivePlayerIsCPU(player)) return
-
-	// 	if (tile.dataset.filled === 'false') {
-	// 		tileImg.src = ''
-	// 	}
-	// })
-
-	// tile.addEventListener('click', e => {
-	// 	if (checkIfActivePlayerIsCPU(player)) return
-
-	// 	if (tile.dataset.filled === 'false') {
-	// 		tile.dataset.filled = 'true'
-	// 		tileImg.src = `${player.icon}`
-	// 		tileImg.alt = `${player.sign} icon`
-	// 	}
-
-	// 	if (tile.dataset.filled === 'true') return
-	// })
-
 	return tile
 }
 
-const createBoard = (player) => {
+const createBoard = () => {
 	const boardContainer = document.createElement('div')
 	boardContainer.className = 'board'
 
 	for (let i = 0; i < 9; i++) {
-		boardContainer.append(createTiles(i, player))
+		boardContainer.append(createTiles(i))
 	}
 
 	return boardContainer
@@ -274,7 +199,7 @@ export const createGame = (active, waiting) => {
 
 	gameScreen.append(
 		createGameHeaderInfoContainer(active),
-		createBoard(active),
+		createBoard(),
 		createScoreInfoContainer(active, waiting)
 	)
 

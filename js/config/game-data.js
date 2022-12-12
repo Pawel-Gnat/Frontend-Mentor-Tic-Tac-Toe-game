@@ -26,12 +26,6 @@ export const CPU = {
 	active: false,
 }
 
-// export const currentRound = {
-// 	activePlayer: '',
-// }
-
-// export let activePlayer = {}
-
 export const winCombinations = [
 	[0, 1, 2],
 	[3, 4, 5],
