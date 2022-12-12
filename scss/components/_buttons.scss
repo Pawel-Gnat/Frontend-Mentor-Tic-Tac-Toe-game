@@ -27,6 +27,7 @@ button:focus {
 	&--cpu {
 		margin-bottom: 1.6rem;
 		background-color: $yellow;
+		color: $dark-navy;
 		box-shadow: inset 0px -8px 0px #cc8b13;
 
 		&:hover {
@@ -36,6 +37,7 @@ button:focus {
 
 	&--player {
 		background-color: $light-blue;
+		color: $dark-navy;
 		box-shadow: inset 0px -8px 0px #118c87;
 
 		&:hover {
@@ -55,5 +57,30 @@ button:focus {
 	&--tile {
 		background-color: $semi-dark-navy;
 		box-shadow: inset 0px -8px 0px #10212a;
+	}
+
+	&--quit,
+	&--cancel {
+		padding: 1.5rem;
+		background-color: $silver;
+		color: $dark-navy;
+		box-shadow: inset 0px -4px 0px #6b8997;
+
+		&:hover {
+			background-color: $silver-hover;
+		}
+	}
+
+	&--next,
+	&--reset {
+		padding: 1.5rem;
+		margin-left: 1.6rem;
+		background-color: $yellow;
+		color: $dark-navy;
+		box-shadow: inset 0px -4px 0px #cc8b13;
+
+		&:hover {
+			background-color: $yellow-hover;
+		}
 	}
 }

@@ -127,7 +127,7 @@ const createGameHeaderInfoContainer = player => {
 	return gameHeader
 }
 
-const createTiles = (value) => {
+const createTiles = value => {
 	const tile = document.createElement('button')
 	tile.className = 'btn btn--tile'
 	tile.type = 'button'
@@ -197,11 +197,7 @@ export const createGame = (active, waiting) => {
 	const gameScreen = document.createElement('div')
 	gameScreen.className = 'game-screen fade-in'
 
-	gameScreen.append(
-		createGameHeaderInfoContainer(active),
-		createBoard(),
-		createScoreInfoContainer(active, waiting)
-	)
+	gameScreen.append(createGameHeaderInfoContainer(active), createBoard(), createScoreInfoContainer(active, waiting))
 
 	return gameScreen
 }
@@ -212,4 +208,74 @@ export const changeTurnInfo = player => {
 
 	const iconImage = turnContainer.querySelector('img')
 	iconImage.src = player.icon
+}
+
+export const createModal = (info, player, color) => {
+	const modal = document.createElement('div')
+	modal.className = 'modal'
+
+	const modalContainer = document.createElement('div')
+	modalContainer.className = 'result'
+
+	const resultInfo = document.createElement('p')
+
+	if (typeof player === 'object') {
+		resultInfo.className = 'result__info'
+		resultInfo.innerText = `${info}`
+	}
+
+	const resultWinnerInfo = document.createElement('p')
+
+	if (typeof player === 'object') {
+		resultWinnerInfo.className = `result__win text-${color}`
+		resultWinnerInfo.innerText = 'takes the round'
+
+		const resultWinnerImg = document.createElement('img')
+		resultWinnerImg.className = 'result__img'
+		resultWinnerImg.src = `${player.icon}`
+		resultWinnerImg.alt = `${player.name}`
+
+		resultWinnerInfo.insertAdjacentElement('afterbegin', resultWinnerImg)
+	} else {
+		resultWinnerInfo.className = `result__win`
+		resultWinnerInfo.innerText = `${player}`
+	}
+
+	const quitBtn = document.createElement('button')
+	quitBtn.className = 'btn btn--quit'
+	quitBtn.innerText = 'quit'
+
+	const nextBtn = document.createElement('button')
+	nextBtn.className = 'btn btn--next'
+	nextBtn.innerText = 'next round'
+
+	modalContainer.append(resultInfo, resultWinnerInfo, quitBtn, nextBtn)
+	modal.appendChild(modalContainer)
+
+	return modal
+}
+
+export const createModalRestart = () => {
+	const modal = document.createElement('div')
+	modal.className = 'modal'
+
+	const modalContainer = document.createElement('div')
+	modalContainer.className = 'result'
+
+	const restartInfo = document.createElement('p')
+	restartInfo.className = `result__win`
+	restartInfo.innerText = 'restart game?'
+
+	const cancelBtn = document.createElement('button')
+	cancelBtn.className = 'btn btn--cancel'
+	cancelBtn.innerText = 'no, cancel'
+
+	const resetBtn = document.createElement('button')
+	resetBtn.className = 'btn btn--reset'
+	resetBtn.innerText = 'yes, restart'
+
+	modalContainer.append(restartInfo, cancelBtn, resetBtn)
+	modal.appendChild(modalContainer)
+
+	return modal
 }

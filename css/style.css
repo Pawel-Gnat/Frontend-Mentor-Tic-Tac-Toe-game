@@ -87,6 +87,7 @@ button:focus {
 .btn--cpu {
   margin-bottom: 1.6rem;
   background-color: #f2b137;
+  color: #1a2a33;
   -webkit-box-shadow: inset 0px -8px 0px #cc8b13;
           box-shadow: inset 0px -8px 0px #cc8b13;
 }
@@ -95,6 +96,7 @@ button:focus {
 }
 .btn--player {
   background-color: #31c3bd;
+  color: #1a2a33;
   -webkit-box-shadow: inset 0px -8px 0px #118c87;
           box-shadow: inset 0px -8px 0px #118c87;
 }
@@ -113,6 +115,27 @@ button:focus {
   background-color: #1f3641;
   -webkit-box-shadow: inset 0px -8px 0px #10212a;
           box-shadow: inset 0px -8px 0px #10212a;
+}
+.btn--quit, .btn--cancel {
+  padding: 1.5rem;
+  background-color: #a8bfc9;
+  color: #1a2a33;
+  -webkit-box-shadow: inset 0px -4px 0px #6b8997;
+          box-shadow: inset 0px -4px 0px #6b8997;
+}
+.btn--quit:hover, .btn--cancel:hover {
+  background-color: #dbe8ed;
+}
+.btn--next, .btn--reset {
+  padding: 1.5rem;
+  margin-left: 1.6rem;
+  background-color: #f2b137;
+  color: #1a2a33;
+  -webkit-box-shadow: inset 0px -4px 0px #cc8b13;
+          box-shadow: inset 0px -4px 0px #cc8b13;
+}
+.btn--next:hover, .btn--reset:hover {
+  background-color: #ffc860;
 }
 
 html {
@@ -322,4 +345,59 @@ body {
 }
 .game-screen .game-footer div:nth-child(3) {
   background-color: #f2b137;
+}
+
+.modal {
+  position: absolute;
+  inset: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.result {
+  width: 100%;
+  padding: 4rem 3.5rem 4.8rem;
+  background-color: #1f3641;
+  text-align: center;
+  z-index: 1;
+}
+.result__info {
+  font-weight: 700;
+  letter-spacing: 0.88px;
+  color: #a8bfc9;
+}
+.result__win {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin: 1.6rem 0rem 2.4rem;
+  color: #a8bfc9;
+}
+.result__win img {
+  height: 3rem;
+  aspect-ratio: 1/1;
+}
+.result .text-blue {
+  color: #31c3bd;
+}
+.result .text-yellow {
+  color: #f2b137;
 }/*# sourceMappingURL=style.css.map */

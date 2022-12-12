@@ -1,5 +1,11 @@
-import { createSelectPlayerScreen, createGame, changeTurnInfo } from './dom-elements.js'
-import { firstPlayer, secondPlayer, CPU } from './game-data.js'
+import {
+	createSelectPlayerScreen,
+	createGame,
+	changeTurnInfo,
+	createModal,
+	createModalRestart,
+} from './dom-elements.js'
+import { firstPlayer, secondPlayer, CPU, winCombinations } from './game-data.js'
 
 let activePlayer = {}
 let waitingPlayer = {}
@@ -83,6 +89,48 @@ function waitForCPUTurn(player) {
 	}
 }
 
+function checkWinConditions(player) {
+	if (
+		winCombinations.some(combination => {
+			return combination.every(element => player.board.includes(element))
+		})
+	)
+		checkWhoWon(activePlayer)
+}
+
+function checkWhoWon(player) {
+	let resultText = ''
+	let textColor = player.sign === 'x' ? 'blue' : 'yellow'
+
+	switch (player.name) {
+		case 'You':
+			resultText = 'you won!'
+			break
+		case 'CPU':
+			resultText = 'oh no, you lost...'
+			break
+		case 'P1':
+			resultText = 'player 1 wins!'
+			break
+		case 'P2':
+			resultText = 'player 2 wins!'
+			break
+	}
+
+	document.body.appendChild(createModal(resultText, activePlayer, textColor))
+}
+
+function checkIfDraw() {
+	const tiles = Array.from(document.querySelectorAll('.btn--tile'))
+
+	if (tiles.every(tile => tile.dataset.filled === 'true'))
+		document.body.appendChild(createModal(null, 'round tied', null))
+}
+
+function renderModalRestart() {
+	document.body.appendChild(createModalRestart())
+}
+
 document.body.addEventListener('click', e => {
 	if (waitForCPUTurn(activePlayer)) return
 
@@ -92,6 +140,10 @@ document.body.addEventListener('click', e => {
 
 	if (firstPlayer.icon && e.target.dataset.vs) {
 		startNewGame(e)
+	}
+
+	if (e.target.classList.contains('btn--restart')) {
+		renderModalRestart()
 	}
 
 	if (e.target.dataset.value) {
@@ -105,8 +157,9 @@ document.body.addEventListener('click', e => {
 
 		activePlayer.board.push(tileValue)
 
+		checkWinConditions(activePlayer)
+		checkIfDraw()
 		changeTurn(activePlayer, waitingPlayer)
-		console.log(activePlayer)
 		changeTurnInfo(activePlayer)
 	}
 })
