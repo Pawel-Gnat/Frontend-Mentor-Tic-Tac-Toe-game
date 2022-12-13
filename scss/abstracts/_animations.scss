@@ -23,3 +23,61 @@
 .fade-out {
 	animation: fadeOut 0.5s forwards;
 }
+
+@keyframes showModalBg {
+	0% {
+		transform: scaleY(0.005) scaleX(0);
+	}
+	50% {
+		transform: scaleY(0.005) scaleX(1);
+	}
+	100% {
+		transform: scaleY(1) scaleX(1);
+	}
+}
+
+@keyframes hideModalBg {
+	0% {
+		transform: scaleY(1) scaleX(1);
+	}
+	50% {
+		transform: scaleY(0.005) scaleX(1);
+	}
+	100% {
+		transform: scaleY(0.005) scaleX(0);
+	}
+}
+
+.show {
+	animation: showModalBg 1s forwards;
+}
+
+.hide {
+	animation: hideModalBg 1s forwards;
+}
+
+@keyframes zoomIn {
+	0% {
+		transform: scale(0);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes zoomOut {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(0);
+	}
+}
+
+.zoom-in {
+	animation: zoomIn 1s forwards;
+}
+
+.zoom-out {
+	animation: zoomOut 1s forwards;
+}

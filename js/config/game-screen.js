@@ -2,6 +2,7 @@ import {
 	createSelectPlayerScreen,
 	createGame,
 	changeTurnInfo,
+	createModalBg,
 	createModal,
 	createModalRestart,
 } from './dom-elements.js'
@@ -10,6 +11,7 @@ import { firstPlayer, secondPlayer, CPU, winCombinations } from './game-data.js'
 let activePlayer = {}
 let waitingPlayer = {}
 let players = []
+let nextTurn = true
 
 export const renderApp = () => {
 	document.body.appendChild(createSelectPlayerScreen())
@@ -89,13 +91,21 @@ function waitForCPUTurn(player) {
 	}
 }
 
+async function delay(duration) {
+	return new Promise(resolve => {
+		setTimeout(resolve, duration)
+	})
+}
+
 function checkWinConditions(player) {
 	if (
 		winCombinations.some(combination => {
 			return combination.every(element => player.board.includes(element))
 		})
-	)
+	) {
 		checkWhoWon(activePlayer)
+		nextTurn = false
+	}
 }
 
 function checkWhoWon(player) {
@@ -117,18 +127,55 @@ function checkWhoWon(player) {
 			break
 	}
 
-	document.body.appendChild(createModal(resultText, activePlayer, textColor))
+	document.body.appendChild(createModalBg())
+
+	setTimeout(() => {
+		document.body.appendChild(createModal(resultText, activePlayer, textColor))
+	}, 1000)
 }
 
 function checkIfDraw() {
 	const tiles = Array.from(document.querySelectorAll('.btn--tile'))
 
-	if (tiles.every(tile => tile.dataset.filled === 'true'))
+	if (tiles.every(tile => tile.dataset.filled === 'true')) {
+		nextTurn = false
 		document.body.appendChild(createModal(null, 'round tied', null))
+	}
 }
 
 function renderModalRestart() {
-	document.body.appendChild(createModalRestart())
+	document.body.appendChild(createModalBg())
+
+	setTimeout(() => {
+		document.body.appendChild(createModalRestart())
+	}, 700)
+}
+
+function hideModalElements() {
+	const modalBox = document.querySelector('.result')
+	const modalBg = document.querySelector('.modal')
+
+	;(async () => {
+		await delay(0)
+		modalBox.classList.remove('zoom-in')
+		modalBox.classList.add('zoom-out')
+		await delay(700)
+		modalBg.classList.remove('show')
+		modalBg.classList.add('hide')
+		await delay(1000)
+		modalBox.remove()
+		modalBg.remove()
+	})()
+}
+
+function endGame() {
+	const game = document.querySelector('.game-screen')
+	game.classList.remove('fade-in')
+	game.classList.add('fade-out')
+
+	setTimeout(() => {
+		game.remove()
+	}, 500)
 }
 
 document.body.addEventListener('click', e => {
@@ -146,6 +193,21 @@ document.body.addEventListener('click', e => {
 		renderModalRestart()
 	}
 
+	if (e.target.classList.contains('btn--cancel')) {
+		hideModalElements()
+	}
+
+	if (e.target.classList.contains('btn--reset') || e.target.classList.contains('btn--quit')) {
+		;(async () => {
+			await delay(0)
+			hideModalElements()
+			await delay(1700)
+			endGame()
+			await delay(700)
+			document.body.appendChild(createSelectPlayerScreen())
+		})()
+	}
+
 	if (e.target.dataset.value) {
 		let tileValue = +e.target.dataset.value
 
@@ -159,8 +221,11 @@ document.body.addEventListener('click', e => {
 
 		checkWinConditions(activePlayer)
 		checkIfDraw()
-		changeTurn(activePlayer, waitingPlayer)
-		changeTurnInfo(activePlayer)
+
+		if (nextTurn) {
+			changeTurn(activePlayer, waitingPlayer)
+			changeTurnInfo(activePlayer)
+		}
 	}
 })
 

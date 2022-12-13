@@ -70,7 +70,7 @@ const createNewGameVsPlayerButtons = () => {
 
 export const createSelectPlayerScreen = () => {
 	const container = document.createElement('div')
-	container.className = 'select-player-screen'
+	container.className = 'select-player-screen fade-in'
 
 	container.append(
 		createLogoImage(),
@@ -210,12 +210,16 @@ export const changeTurnInfo = player => {
 	iconImage.src = player.icon
 }
 
-export const createModal = (info, player, color) => {
-	const modal = document.createElement('div')
-	modal.className = 'modal'
+export const createModalBg = () => {
+	const modalBg = document.createElement('div')
+	modalBg.className = 'modal show'
 
+	return modalBg
+}
+
+export const createModal = (info, player, color) => {
 	const modalContainer = document.createElement('div')
-	modalContainer.className = 'result'
+	modalContainer.className = 'result zoom-in'
 
 	const resultInfo = document.createElement('p')
 
@@ -250,17 +254,12 @@ export const createModal = (info, player, color) => {
 	nextBtn.innerText = 'next round'
 
 	modalContainer.append(resultInfo, resultWinnerInfo, quitBtn, nextBtn)
-	modal.appendChild(modalContainer)
-
-	return modal
+	return modalContainer
 }
 
 export const createModalRestart = () => {
-	const modal = document.createElement('div')
-	modal.className = 'modal'
-
 	const modalContainer = document.createElement('div')
-	modalContainer.className = 'result'
+	modalContainer.className = 'result zoom-in'
 
 	const restartInfo = document.createElement('p')
 	restartInfo.className = `result__win`
@@ -275,7 +274,6 @@ export const createModalRestart = () => {
 	resetBtn.innerText = 'yes, restart'
 
 	modalContainer.append(restartInfo, cancelBtn, resetBtn)
-	modal.appendChild(modalContainer)
 
-	return modal
+	return modalContainer
 }
