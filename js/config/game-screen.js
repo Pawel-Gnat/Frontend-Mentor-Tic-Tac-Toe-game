@@ -91,6 +91,14 @@ function waitForCPUTurn(player) {
 	}
 }
 
+function clearBoards() {
+	players.forEach(player => (player.board = []))
+}
+
+function clearPlayers() {
+	players = []
+}
+
 async function delay(duration) {
 	return new Promise(resolve => {
 		setTimeout(resolve, duration)
@@ -131,6 +139,7 @@ function checkWhoWon(player) {
 
 	setTimeout(() => {
 		document.body.appendChild(createModal(resultText, activePlayer, textColor))
+		clearBoards()
 	}, 1000)
 }
 
@@ -138,6 +147,7 @@ function checkIfDraw() {
 	const tiles = Array.from(document.querySelectorAll('.btn--tile'))
 
 	if (tiles.every(tile => tile.dataset.filled === 'true')) {
+		clearBoards()
 		nextTurn = false
 		document.body.appendChild(createModal(null, 'round tied', null))
 	}
@@ -160,9 +170,6 @@ function hideModalElements() {
 		modalBox.classList.remove('zoom-in')
 		modalBox.classList.add('zoom-out')
 		await delay(700)
-		modalBg.classList.remove('show')
-		modalBg.classList.add('hide')
-		await delay(1000)
 		modalBox.remove()
 		modalBg.remove()
 	})()
@@ -198,13 +205,27 @@ document.body.addEventListener('click', e => {
 	}
 
 	if (e.target.classList.contains('btn--reset') || e.target.classList.contains('btn--quit')) {
+		nextTurn = true
 		;(async () => {
 			await delay(0)
 			hideModalElements()
-			await delay(1700)
+			await delay(500)
 			endGame()
+			clearPlayers()
 			await delay(700)
 			document.body.appendChild(createSelectPlayerScreen())
+		})()
+	}
+
+	if (e.target.classList.contains('btn--next')) {
+		nextTurn = true
+		;(async () => {
+			await delay(0)
+			hideModalElements()
+			await delay(500)
+			endGame()
+			await delay(700)
+			document.body.appendChild(createGame(activePlayer, waitingPlayer))
 		})()
 	}
 
@@ -221,6 +242,7 @@ document.body.addEventListener('click', e => {
 
 		checkWinConditions(activePlayer)
 		checkIfDraw()
+		console.log(nextTurn)
 
 		if (nextTurn) {
 			changeTurn(activePlayer, waitingPlayer)
