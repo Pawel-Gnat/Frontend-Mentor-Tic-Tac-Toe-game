@@ -177,27 +177,31 @@ const createTiesInfoElement = ties => {
 	const infoElementTiesScore = document.createElement('p')
 
 	infoElementText.innerText = 'ties'
-	infoElementTiesScore.innerText = `${ties}`
+	infoElementTiesScore.innerText = `${ties.score}`
 
 	infoElement.append(infoElementText, infoElementTiesScore)
 
 	return infoElement
 }
 
-const createScoreInfoContainer = (active, waiting) => {
+const createScoreInfoContainer = (active, ties, waiting) => {
 	const gameFooter = document.createElement('div')
 	gameFooter.className = 'game-footer'
 
-	gameFooter.append(createScoreInfoElement(active), createTiesInfoElement(0), createScoreInfoElement(waiting))
+	gameFooter.append(createScoreInfoElement(active), createTiesInfoElement(ties), createScoreInfoElement(waiting))
 
 	return gameFooter
 }
 
-export const createGame = (active, waiting) => {
+export const createGame = (active, ties, waiting) => {
 	const gameScreen = document.createElement('div')
 	gameScreen.className = 'game-screen fade-in'
 
-	gameScreen.append(createGameHeaderInfoContainer(active), createBoard(), createScoreInfoContainer(active, waiting))
+	gameScreen.append(
+		createGameHeaderInfoContainer(active),
+		createBoard(),
+		createScoreInfoContainer(active, ties, waiting)
+	)
 
 	return gameScreen
 }

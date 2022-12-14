@@ -26,6 +26,10 @@ export const CPU = {
 	active: false,
 }
 
+export const ties = {
+	score: 0,
+}
+
 export const winCombinations = [
 	[0, 1, 2],
 	[3, 4, 5],

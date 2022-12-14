@@ -253,3 +253,19 @@ body {
 		color: $yellow;
 	}
 }
+
+.tile-bg-blue,
+.tile-bg-yellow {
+	img {
+		filter: brightness(0) saturate(100%) invert(11%) sepia(18%) saturate(1964%) hue-rotate(158deg) brightness(98%)
+			contrast(90%);
+	}
+}
+
+.tile-bg-blue {
+	background-color: $light-blue;
+}
+
+.tile-bg-yellow {
+	background-color: $yellow;
+}

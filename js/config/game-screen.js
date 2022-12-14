@@ -6,7 +6,7 @@ import {
 	createModal,
 	createModalRestart,
 } from './dom-elements.js'
-import { firstPlayer, secondPlayer, CPU, winCombinations } from './game-data.js'
+import { firstPlayer, secondPlayer, CPU, ties, winCombinations } from './game-data.js'
 
 let activePlayer = {}
 let waitingPlayer = {}
@@ -60,12 +60,9 @@ function startNewGame(e) {
 	activePlayer = startingPlayer()
 	waitingPlayer = idlePlayer()
 
-	startingPlayer()
-	idlePlayer()
-
 	setTimeout(() => {
 		document.body.querySelector('div').remove()
-		document.body.appendChild(createGame(activePlayer, waitingPlayer))
+		document.body.appendChild(createGame(activePlayer, ties, waitingPlayer))
 	}, 500)
 }
 
@@ -95,7 +92,7 @@ function clearBoards() {
 	players.forEach(player => (player.board = []))
 }
 
-function clearPlayers() {
+function clearSelectedPlayers() {
 	players = []
 }
 
@@ -136,6 +133,8 @@ function checkWhoWon(player) {
 	}
 
 	document.body.appendChild(createModalBg())
+	addPoints(player)
+	highlightWinnerTiles(player)
 
 	setTimeout(() => {
 		document.body.appendChild(createModal(resultText, activePlayer, textColor))
@@ -143,13 +142,34 @@ function checkWhoWon(player) {
 	}, 1000)
 }
 
+function highlightWinnerTiles(player) {
+	const allTiles = Array.from(document.querySelectorAll('.btn--tile'))
+	const playerNumbers = player.board
+	const winNumbers = winCombinations.filter(array => array.every(number => playerNumbers.includes(number))).flat()
+	const tilesColor = player.sign === 'x' ? 'blue' : 'yellow'
+	const winnerTiles = allTiles.filter(tile => winNumbers.includes(Number(tile.dataset.value)))
+	let delay = 0
+
+	winnerTiles.forEach(element => {
+		delay += 200
+		setTimeout(() => {
+			element.classList.add(`tile-bg-${tilesColor}`)
+		}, delay)
+	})
+}
+
 function checkIfDraw() {
 	const tiles = Array.from(document.querySelectorAll('.btn--tile'))
 
 	if (tiles.every(tile => tile.dataset.filled === 'true')) {
 		clearBoards()
+		addPoints(ties)
 		nextTurn = false
-		document.body.appendChild(createModal(null, 'round tied', null))
+		document.body.appendChild(createModalBg())
+
+		setTimeout(() => {
+			document.body.appendChild(createModal(null, 'round tied', null))
+		}, 1000)
 	}
 }
 
@@ -159,6 +179,10 @@ function renderModalRestart() {
 	setTimeout(() => {
 		document.body.appendChild(createModalRestart())
 	}, 700)
+}
+
+function addPoints(winner) {
+	winner.score += 1
 }
 
 function hideModalElements() {
@@ -175,6 +199,14 @@ function hideModalElements() {
 	})()
 }
 
+function clearPlayersScore() {
+	let allPlayers = [firstPlayer, secondPlayer, CPU]
+
+	allPlayers.forEach(player => {
+		;(player.score = 0), (player.icon = null), (player.iconOutline = null), (player.sign = null), (player.board = [])
+	})
+}
+
 function endGame() {
 	const game = document.querySelector('.game-screen')
 	game.classList.remove('fade-in')
@@ -183,6 +215,10 @@ function endGame() {
 	setTimeout(() => {
 		game.remove()
 	}, 500)
+}
+
+function clearTiesScore() {
+	ties.score = 0
 }
 
 document.body.addEventListener('click', e => {
@@ -204,14 +240,29 @@ document.body.addEventListener('click', e => {
 		hideModalElements()
 	}
 
-	if (e.target.classList.contains('btn--reset') || e.target.classList.contains('btn--quit')) {
+	if (e.target.classList.contains('btn--reset')) {
 		nextTurn = true
 		;(async () => {
 			await delay(0)
 			hideModalElements()
 			await delay(500)
 			endGame()
-			clearPlayers()
+			clearTiesScore()
+			clearPlayersScore()
+			clearSelectedPlayers()
+			await delay(700)
+			document.body.appendChild(createSelectPlayerScreen())
+		})()
+	}
+
+	if (e.target.classList.contains('btn--quit')) {
+		nextTurn = true
+		;(async () => {
+			await delay(0)
+			hideModalElements()
+			await delay(500)
+			endGame()
+			clearSelectedPlayers()
 			await delay(700)
 			document.body.appendChild(createSelectPlayerScreen())
 		})()
@@ -225,7 +276,7 @@ document.body.addEventListener('click', e => {
 			await delay(500)
 			endGame()
 			await delay(700)
-			document.body.appendChild(createGame(activePlayer, waitingPlayer))
+			document.body.appendChild(createGame(activePlayer, ties, waitingPlayer))
 		})()
 	}
 
@@ -242,7 +293,6 @@ document.body.addEventListener('click', e => {
 
 		checkWinConditions(activePlayer)
 		checkIfDraw()
-		console.log(nextTurn)
 
 		if (nextTurn) {
 			changeTurn(activePlayer, waitingPlayer)
