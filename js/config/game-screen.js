@@ -117,7 +117,7 @@ function CPUTurn(player) {
 		chosenTile.dataset.filled = 'true'
 		chosenTile.firstChild.src = `${player.icon}`
 		chosenTile.firstChild.alt = `${player.sign} icon`
-		checkTurn()
+		checkTurn(player)
 	}, 500)
 }
 
@@ -234,16 +234,20 @@ function checkIfDraw() {
 	if (tiles.every(tile => tile.dataset.filled === 'true')) {
 		clearBoards()
 		addPoints(ties)
-		// nextTurn = false
 		document.body.appendChild(createModalBg())
 
 		setTimeout(() => {
 			document.body.appendChild(createModal(null, 'round tied', null))
 		}, 1000)
+	} else {
+		changeTurn(activePlayer, waitingPlayer)
+		changeTurnInfo(activePlayer)
+		CPUTurn(activePlayer)
+		nextTurn = true
 	}
 }
 
-function checkWinConditions(player) {
+function checkTurn(player) {
 	if (
 		winCombinations.some(combination => {
 			return combination.every(element => player.board.includes(element))
@@ -251,27 +255,10 @@ function checkWinConditions(player) {
 	) {
 		const board = document.querySelector('.board')
 		board.classList.add('prevent-click')
-
-		// nextTurn = false
 		checkWhoWon(activePlayer)
+	} else {
+		checkIfDraw()
 	}
-}
-
-function checkTurn() {
-	checkWinConditions(activePlayer)
-	checkIfDraw()
-
-	// if (nextTurn) {
-	changeTurn(activePlayer, waitingPlayer)
-	changeTurnInfo(activePlayer)
-	CPUTurn(activePlayer)
-	// }
-
-	// console.time("label")
-
-	// setTimeout(() => {
-	// 	nextTurn = true
-	// }, 0)
 }
 
 document.body.addEventListener('click', e => {
@@ -335,10 +322,7 @@ document.body.addEventListener('click', e => {
 	}
 
 	if (e.target.dataset.value && nextTurn) {
-		// console.log(players, activePlayer)
-		// console.log(nextTurn)
 		nextTurn = false
-		// console.log(nextTurn)
 		if (waitForCPUTurn(activePlayer)) return
 
 		let tileValue = +e.target.dataset.value
@@ -351,8 +335,7 @@ document.body.addEventListener('click', e => {
 
 		activePlayer.board.push(tileValue)
 
-		checkTurn()
-		// console.log(nextTurn)
+		checkTurn(activePlayer)
 	}
 })
 
