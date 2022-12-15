@@ -490,6 +490,10 @@ body {
   color: #f2b137;
 }
 
+.prevent-click {
+  pointer-events: none;
+}
+
 .tile-bg-blue img,
 .tile-bg-yellow img {
   -webkit-filter: brightness(0) saturate(100%) invert(11%) sepia(18%) saturate(1964%) hue-rotate(158deg) brightness(98%) contrast(90%);

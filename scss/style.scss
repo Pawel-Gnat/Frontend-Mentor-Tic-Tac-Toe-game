@@ -254,6 +254,10 @@ body {
 	}
 }
 
+.prevent-click {
+	pointer-events: none;
+}
+
 .tile-bg-blue,
 .tile-bg-yellow {
 	img {

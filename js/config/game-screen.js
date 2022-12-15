@@ -63,6 +63,7 @@ function startNewGame(e) {
 	setTimeout(() => {
 		document.body.querySelector('div').remove()
 		document.body.appendChild(createGame(activePlayer, ties, waitingPlayer))
+		CPUTurn(activePlayer)
 	}, 500)
 }
 
@@ -88,6 +89,38 @@ function waitForCPUTurn(player) {
 	}
 }
 
+function CPUTurn(player) {
+	if (player.name !== 'CPU') return
+
+	const tiles = Array.from(document.querySelectorAll('.btn--tile'))
+	const CPUBoard = player.board
+	let chosenNumber = ''
+
+	if (tiles.every(tile => tile.dataset.filled === 'false')) {
+		chosenNumber = Number(tiles[(Math.random() * tiles.length) | 0].dataset.value)
+	} else {
+		const opponentBoard = waitingPlayer.board
+		const possibleWinCombinations = winCombinations.filter(array =>
+			array.some(number => opponentBoard.includes(number))
+		)
+		const possibleTilesToChoose = [...new Set(possibleWinCombinations.flat())].filter(
+			number => !opponentBoard.includes(number) && !CPUBoard.includes(number)
+		)
+		chosenNumber = possibleTilesToChoose[(Math.random() * possibleTilesToChoose.length) | 0]
+		// console.log(possibleWinCombinations, possibleTilesToChoose)
+	}
+
+	setTimeout(() => {
+		CPUBoard.push(chosenNumber)
+		const chosenTile = tiles.find(tile => Number(tile.dataset.value) === chosenNumber)
+		// console.log(chosenNumber)
+		chosenTile.dataset.filled = 'true'
+		chosenTile.firstChild.src = `${player.icon}`
+		chosenTile.firstChild.alt = `${player.sign} icon`
+		checkTurn()
+	}, 500)
+}
+
 function clearBoards() {
 	players.forEach(player => (player.board = []))
 }
@@ -100,17 +133,6 @@ async function delay(duration) {
 	return new Promise(resolve => {
 		setTimeout(resolve, duration)
 	})
-}
-
-function checkWinConditions(player) {
-	if (
-		winCombinations.some(combination => {
-			return combination.every(element => player.board.includes(element))
-		})
-	) {
-		checkWhoWon(activePlayer)
-		nextTurn = false
-	}
 }
 
 function checkWhoWon(player) {
@@ -156,21 +178,6 @@ function highlightWinnerTiles(player) {
 			element.classList.add(`tile-bg-${tilesColor}`)
 		}, delay)
 	})
-}
-
-function checkIfDraw() {
-	const tiles = Array.from(document.querySelectorAll('.btn--tile'))
-
-	if (tiles.every(tile => tile.dataset.filled === 'true')) {
-		clearBoards()
-		addPoints(ties)
-		nextTurn = false
-		document.body.appendChild(createModalBg())
-
-		setTimeout(() => {
-			document.body.appendChild(createModal(null, 'round tied', null))
-		}, 1000)
-	}
 }
 
 function renderModalRestart() {
@@ -221,9 +228,53 @@ function clearTiesScore() {
 	ties.score = 0
 }
 
-document.body.addEventListener('click', e => {
-	if (waitForCPUTurn(activePlayer)) return
+function checkIfDraw() {
+	const tiles = Array.from(document.querySelectorAll('.btn--tile'))
 
+	if (tiles.every(tile => tile.dataset.filled === 'true')) {
+		clearBoards()
+		addPoints(ties)
+		// nextTurn = false
+		document.body.appendChild(createModalBg())
+
+		setTimeout(() => {
+			document.body.appendChild(createModal(null, 'round tied', null))
+		}, 1000)
+	}
+}
+
+function checkWinConditions(player) {
+	if (
+		winCombinations.some(combination => {
+			return combination.every(element => player.board.includes(element))
+		})
+	) {
+		const board = document.querySelector('.board')
+		board.classList.add('prevent-click')
+
+		// nextTurn = false
+		checkWhoWon(activePlayer)
+	}
+}
+
+function checkTurn() {
+	checkWinConditions(activePlayer)
+	checkIfDraw()
+
+	// if (nextTurn) {
+	changeTurn(activePlayer, waitingPlayer)
+	changeTurnInfo(activePlayer)
+	CPUTurn(activePlayer)
+	// }
+
+	// console.time("label")
+
+	// setTimeout(() => {
+	// 	nextTurn = true
+	// }, 0)
+}
+
+document.body.addEventListener('click', e => {
 	if (e.target.dataset.icon) {
 		setPlayersIcon(e)
 	}
@@ -272,15 +323,24 @@ document.body.addEventListener('click', e => {
 		nextTurn = true
 		;(async () => {
 			await delay(0)
+			changeTurn(activePlayer, waitingPlayer)
+			changeTurnInfo(activePlayer)
 			hideModalElements()
 			await delay(500)
 			endGame()
 			await delay(700)
 			document.body.appendChild(createGame(activePlayer, ties, waitingPlayer))
+			CPUTurn(activePlayer)
 		})()
 	}
 
-	if (e.target.dataset.value) {
+	if (e.target.dataset.value && nextTurn) {
+		// console.log(players, activePlayer)
+		// console.log(nextTurn)
+		nextTurn = false
+		// console.log(nextTurn)
+		if (waitForCPUTurn(activePlayer)) return
+
 		let tileValue = +e.target.dataset.value
 
 		if (e.target.dataset.filled === 'true') return
@@ -291,23 +351,22 @@ document.body.addEventListener('click', e => {
 
 		activePlayer.board.push(tileValue)
 
-		checkWinConditions(activePlayer)
-		checkIfDraw()
-
-		if (nextTurn) {
-			changeTurn(activePlayer, waitingPlayer)
-			changeTurnInfo(activePlayer)
-		}
+		checkTurn()
+		// console.log(nextTurn)
 	}
 })
 
 document.body.addEventListener('mouseover', e => {
+	if (waitForCPUTurn(activePlayer)) return
+
 	if (e.target.dataset.filled === 'false') {
 		e.target.firstChild.src = `${activePlayer.iconOutline}`
 	}
 })
 
 document.body.addEventListener('mouseout', e => {
+	if (waitForCPUTurn(activePlayer)) return
+
 	if (e.target.dataset.filled === 'false') {
 		e.target.firstChild.src = ''
 	}
