@@ -55,13 +55,13 @@ function startNewGame(e) {
 		players = [firstPlayer, secondPlayer]
 	}
 
-	document.body.querySelector('div').classList.add('fade-out')
+	document.body.querySelector('#players-screen').classList.add('fade-out')
 
 	activePlayer = startingPlayer()
 	waitingPlayer = idlePlayer()
 
 	setTimeout(() => {
-		document.body.querySelector('div').remove()
+		document.body.querySelector('#players-screen').remove()
 		document.body.appendChild(createGame(activePlayer, ties, waitingPlayer))
 		CPUTurn(activePlayer)
 	}, 500)
@@ -215,7 +215,7 @@ function clearPlayersScore() {
 }
 
 function endGame() {
-	const game = document.querySelector('.game-screen')
+	const game = document.querySelector('#game-screen')
 	game.classList.remove('fade-in')
 	game.classList.add('fade-out')
 
@@ -322,6 +322,8 @@ document.body.addEventListener('click', e => {
 	}
 
 	if (e.target.dataset.value && nextTurn) {
+		if (e.target.dataset.filled === 'true') return
+
 		nextTurn = false
 		if (waitForCPUTurn(activePlayer)) return
 

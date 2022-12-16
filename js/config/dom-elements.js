@@ -71,6 +71,7 @@ const createNewGameVsPlayerButtons = () => {
 export const createSelectPlayerScreen = () => {
 	const container = document.createElement('div')
 	container.className = 'select-player-screen fade-in'
+	container.id = 'players-screen'
 
 	container.append(
 		createLogoImage(),
@@ -163,6 +164,12 @@ const createScoreInfoElement = player => {
 	const infoElementPlayerName = document.createElement('p')
 	const infoElementPlayerScore = document.createElement('p')
 
+	if (sign === 'x') {
+		infoElement.className = 'tile-bg-blue'
+	} else {
+		infoElement.className = 'tile-bg-yellow'
+	}
+
 	infoElementPlayerName.innerText = `${sign} (${name})`
 	infoElementPlayerScore.innerText = `${score}`
 
@@ -196,6 +203,7 @@ const createScoreInfoContainer = (active, ties, waiting) => {
 export const createGame = (active, ties, waiting) => {
 	const gameScreen = document.createElement('div')
 	gameScreen.className = 'game-screen fade-in'
+	gameScreen.id = 'game-screen'
 
 	gameScreen.append(
 		createGameHeaderInfoContainer(active),

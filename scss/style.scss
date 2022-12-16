@@ -175,7 +175,6 @@ body {
 			width: 100%;
 			padding: 1.2rem;
 			border-radius: 1rem;
-			background-color: $light-blue;
 			color: $dark-navy;
 			text-align: center;
 
@@ -193,10 +192,6 @@ body {
 
 		div:nth-child(2) {
 			background-color: $silver;
-		}
-
-		div:nth-child(3) {
-			background-color: $yellow;
 		}
 	}
 }

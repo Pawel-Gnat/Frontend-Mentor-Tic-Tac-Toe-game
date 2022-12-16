@@ -412,7 +412,6 @@ body {
   width: 100%;
   padding: 1.2rem;
   border-radius: 1rem;
-  background-color: #31c3bd;
   color: #1a2a33;
   text-align: center;
 }
@@ -427,9 +426,6 @@ body {
 }
 .game-screen .game-footer div:nth-child(2) {
   background-color: #a8bfc9;
-}
-.game-screen .game-footer div:nth-child(3) {
-  background-color: #f2b137;
 }
 
 .modal {
