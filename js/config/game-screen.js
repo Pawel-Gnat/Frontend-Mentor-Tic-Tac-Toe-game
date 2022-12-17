@@ -95,25 +95,35 @@ function CPUTurn(player) {
 	const tiles = Array.from(document.querySelectorAll('.btn--tile'))
 	const CPUBoard = player.board
 	let chosenNumber = ''
+	let availableTiles = ''
 
 	if (tiles.every(tile => tile.dataset.filled === 'false')) {
 		chosenNumber = Number(tiles[(Math.random() * tiles.length) | 0].dataset.value)
 	} else {
 		const opponentBoard = waitingPlayer.board
-		const possibleWinCombinations = winCombinations.filter(array =>
-			array.some(number => opponentBoard.includes(number))
+
+		let possibleWinCombinations = winCombinations.find(
+			array =>
+				array.filter(element => opponentBoard.includes(element)).length === 2 &&
+				array.every(element => !CPUBoard.includes(element))
 		)
-		const possibleTilesToChoose = [...new Set(possibleWinCombinations.flat())].filter(
-			number => !opponentBoard.includes(number) && !CPUBoard.includes(number)
-		)
-		chosenNumber = possibleTilesToChoose[(Math.random() * possibleTilesToChoose.length) | 0]
-		// console.log(possibleWinCombinations, possibleTilesToChoose)
+
+		if (typeof possibleWinCombinations === 'object') {
+			availableTiles = possibleWinCombinations.filter(array => !opponentBoard.includes(array))
+
+			chosenNumber = availableTiles[(Math.random() * availableTiles.length) | 0]
+		}
+
+		if (possibleWinCombinations === undefined) {
+			availableTiles = tiles.filter(tile => tile.dataset.filled === 'false')
+
+			chosenNumber = Number(availableTiles[(Math.random() * availableTiles.length) | 0].dataset.value)
+		}
 	}
 
 	setTimeout(() => {
 		CPUBoard.push(chosenNumber)
 		const chosenTile = tiles.find(tile => Number(tile.dataset.value) === chosenNumber)
-		// console.log(chosenNumber)
 		chosenTile.dataset.filled = 'true'
 		chosenTile.firstChild.src = `${player.icon}`
 		chosenTile.firstChild.alt = `${player.sign} icon`
