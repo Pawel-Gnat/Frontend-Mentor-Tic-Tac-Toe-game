@@ -214,6 +214,17 @@ export const createGame = (active, ties, waiting) => {
 	return gameScreen
 }
 
+export const createFooter = () => {
+	const footer = document.createElement('div')
+	footer.innerHTML = `
+		<p class="footer__author">Challenge by <a href="https://www.frontendmentor.io" target="_blank"
+				rel="noopener">Frontend Mentor</a>.
+			Coded by <a href="https://github.com/Pawel-Gnat" target="_blank" rel="noopener">Paweł Gnat</a>.</p>
+	`
+
+	return footer
+}
+
 export const changeTurnInfo = player => {
 	const turnContainer = document.querySelector('.turn-info')
 	turnContainer.setAttribute('aria-label', `${player.name} turn`)

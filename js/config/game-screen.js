@@ -5,8 +5,12 @@ import {
 	createModalBg,
 	createModal,
 	createModalRestart,
+	createFooter,
 } from './dom-elements.js'
 import { firstPlayer, secondPlayer, CPU, ties, winCombinations } from './game-data.js'
+
+const main = document.querySelector('main')
+const footer = document.querySelector('footer')
 
 let activePlayer = {}
 let waitingPlayer = {}
@@ -14,7 +18,8 @@ let players = []
 let nextTurn = true
 
 export const renderApp = () => {
-	document.body.appendChild(createSelectPlayerScreen())
+	main.appendChild(createSelectPlayerScreen())
+	footer.appendChild(createFooter())
 }
 
 function setPlayersIcon(e) {
@@ -55,14 +60,14 @@ function startNewGame(e) {
 		players = [firstPlayer, secondPlayer]
 	}
 
-	document.body.querySelector('#players-screen').classList.add('fade-out')
+	main.querySelector('#players-screen').classList.add('fade-out')
 
 	activePlayer = startingPlayer()
 	waitingPlayer = idlePlayer()
 
 	setTimeout(() => {
-		document.body.querySelector('#players-screen').remove()
-		document.body.appendChild(createGame(activePlayer, ties, waitingPlayer))
+		main.querySelector('#players-screen').remove()
+		main.appendChild(createGame(activePlayer, ties, waitingPlayer))
 		CPUTurn(activePlayer)
 	}, 500)
 }
@@ -164,12 +169,12 @@ function checkWhoWon(player) {
 			break
 	}
 
-	document.body.appendChild(createModalBg())
+	main.appendChild(createModalBg())
 	addPoints(player)
 	highlightWinnerTiles(player)
 
 	setTimeout(() => {
-		document.body.appendChild(createModal(resultText, activePlayer, textColor))
+		main.appendChild(createModal(resultText, activePlayer, textColor))
 		clearBoards()
 	}, 1000)
 }
@@ -191,10 +196,10 @@ function highlightWinnerTiles(player) {
 }
 
 function renderModalRestart() {
-	document.body.appendChild(createModalBg())
+	main.appendChild(createModalBg())
 
 	setTimeout(() => {
-		document.body.appendChild(createModalRestart())
+		main.appendChild(createModalRestart())
 	}, 700)
 }
 
@@ -244,10 +249,10 @@ function checkIfDraw() {
 	if (tiles.every(tile => tile.dataset.filled === 'true')) {
 		clearBoards()
 		addPoints(ties)
-		document.body.appendChild(createModalBg())
+		main.appendChild(createModalBg())
 
 		setTimeout(() => {
-			document.body.appendChild(createModal(null, 'round tied', null))
+			main.appendChild(createModal(null, 'round tied', null))
 		}, 1000)
 	} else {
 		changeTurn(activePlayer, waitingPlayer)
@@ -271,7 +276,7 @@ function checkTurn(player) {
 	}
 }
 
-document.body.addEventListener('click', e => {
+main.addEventListener('click', e => {
 	if (e.target.dataset.icon) {
 		setPlayersIcon(e)
 	}
@@ -299,7 +304,7 @@ document.body.addEventListener('click', e => {
 			clearPlayersScore()
 			clearSelectedPlayers()
 			await delay(700)
-			document.body.appendChild(createSelectPlayerScreen())
+			main.appendChild(createSelectPlayerScreen())
 		})()
 	}
 
@@ -312,7 +317,7 @@ document.body.addEventListener('click', e => {
 			endGame()
 			clearSelectedPlayers()
 			await delay(700)
-			document.body.appendChild(createSelectPlayerScreen())
+			main.appendChild(createSelectPlayerScreen())
 		})()
 	}
 
@@ -326,7 +331,7 @@ document.body.addEventListener('click', e => {
 			await delay(500)
 			endGame()
 			await delay(700)
-			document.body.appendChild(createGame(activePlayer, ties, waitingPlayer))
+			main.appendChild(createGame(activePlayer, ties, waitingPlayer))
 			CPUTurn(activePlayer)
 		})()
 	}

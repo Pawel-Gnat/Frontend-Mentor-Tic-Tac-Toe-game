@@ -247,6 +247,28 @@ body {
   background-color: #1a2a33;
 }
 
+main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.select-player-screen {
+  max-width: 46rem;
+  width: 100%;
+}
 .select-player-screen .logo {
   position: relative;
   left: 50%;
@@ -265,6 +287,7 @@ body {
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
+  max-width: 46rem;
   padding: 2.4rem;
   margin: 3.2rem 0;
   border-radius: 1.5rem;
@@ -315,8 +338,11 @@ body {
 }
 
 .game-screen {
+  position: relative;
+  top: -50%;
+  translate: 0% 50%;
+  max-width: 46rem;
   width: 100%;
-  height: 100%;
 }
 .game-screen .game-header {
   display: grid;
@@ -392,6 +418,7 @@ body {
   position: relative;
   top: -2px;
   width: 100%;
+  max-width: 6.4rem;
   pointer-events: none;
 }
 .game-screen .game-footer {
@@ -502,4 +529,17 @@ body {
 
 .tile-bg-yellow {
   background-color: #f2b137;
+}
+
+@media screen and (min-width: 768px) {
+  .game-screen {
+    top: 0%;
+    translate: 0%;
+  }
+  .game-screen .board {
+    margin: 2rem 0;
+  }
+  .result__win {
+    font-size: 4rem;
+  }
 }/*# sourceMappingURL=style.css.map */

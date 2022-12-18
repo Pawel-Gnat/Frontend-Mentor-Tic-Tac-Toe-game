@@ -19,7 +19,19 @@ body {
 	background-color: $dark-navy;
 }
 
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+
 .select-player-screen {
+	max-width: 46rem;
+	width: 100%;
+
 	.logo {
 		position: relative;
 		left: 50%;
@@ -32,6 +44,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
+	max-width: 46rem;
 	padding: 2.4rem;
 	margin: 3.2rem 0;
 	border-radius: 1.5rem;
@@ -86,8 +99,11 @@ body {
 }
 
 .game-screen {
+	position: relative;
+	top: -50%;
+	translate: 0% 50%;
+	max-width: 46rem;
 	width: 100%;
-	height: 100%;
 
 	.game-header {
 		display: grid;
@@ -159,6 +175,7 @@ body {
 				position: relative;
 				top: -2px;
 				width: 100%;
+				max-width: 6.4rem;
 				pointer-events: none;
 			}
 		}
@@ -267,4 +284,21 @@ body {
 
 .tile-bg-yellow {
 	background-color: $yellow;
+}
+
+@media screen and (min-width: 768px) {
+	.game-screen {
+		top: 0%;
+		translate: 0%;
+
+		.board {
+			margin: 2rem 0;
+		}
+	}
+
+	.result {
+		&__win {
+			font-size: 4rem;
+		}
+	}
 }
