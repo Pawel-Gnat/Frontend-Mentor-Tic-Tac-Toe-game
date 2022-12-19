@@ -286,6 +286,15 @@ main {
 	background-color: $yellow;
 }
 
+footer {
+	text-transform: none;
+	text-align: center;
+
+	a {
+		color: $silver;
+	}
+}
+
 @media screen and (min-width: 768px) {
 	.game-screen {
 		top: 0%;

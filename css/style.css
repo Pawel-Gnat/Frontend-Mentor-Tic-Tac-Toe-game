@@ -531,6 +531,14 @@ main {
   background-color: #f2b137;
 }
 
+footer {
+  text-transform: none;
+  text-align: center;
+}
+footer a {
+  color: #a8bfc9;
+}
+
 @media screen and (min-width: 768px) {
   .game-screen {
     top: 0%;
