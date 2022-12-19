@@ -7,7 +7,7 @@ import {
 	createModalRestart,
 	createFooter,
 } from './dom-elements.js'
-import { firstPlayer, secondPlayer, CPU, ties, winCombinations } from './game-data.js'
+import { firstPlayer, secondPlayer, CPU, ties, winCombinations, saveScore, loadScore } from './game-data.js'
 
 const main = document.querySelector('main')
 const footer = document.querySelector('footer')
@@ -45,6 +45,7 @@ function startNewGame(e) {
 			: ((CPU.icon = './assets/icon-x.svg'), (CPU.sign = 'x'))
 
 		players = [firstPlayer, CPU]
+		loadScore()
 	} else {
 		firstPlayer.name = 'P1'
 		secondPlayer.active = true
@@ -205,6 +206,7 @@ function renderModalRestart() {
 
 function addPoints(winner) {
 	winner.score += 1
+	saveScore(winner, winner.score)
 }
 
 function hideModalElements() {
@@ -276,6 +278,12 @@ function checkTurn(player) {
 	}
 }
 
+function clearGame() {
+	clearTiesScore()
+	clearPlayersScore()
+	clearSelectedPlayers()
+}
+
 main.addEventListener('click', e => {
 	if (e.target.dataset.icon) {
 		setPlayersIcon(e)
@@ -298,11 +306,10 @@ main.addEventListener('click', e => {
 		;(async () => {
 			await delay(0)
 			hideModalElements()
+			localStorage.clear()
 			await delay(500)
 			endGame()
-			clearTiesScore()
-			clearPlayersScore()
-			clearSelectedPlayers()
+			clearGame()
 			await delay(700)
 			main.appendChild(createSelectPlayerScreen())
 		})()
@@ -315,7 +322,7 @@ main.addEventListener('click', e => {
 			hideModalElements()
 			await delay(500)
 			endGame()
-			clearSelectedPlayers()
+			clearGame()
 			await delay(700)
 			main.appendChild(createSelectPlayerScreen())
 		})()
